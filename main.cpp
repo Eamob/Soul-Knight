@@ -1,4 +1,3 @@
-//test
 #include<easy2d/easy2d.h>
 #include"StartScene.h"
 #include"Data.h"
