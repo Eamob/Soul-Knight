@@ -1,3 +1,4 @@
+//test
 #include<easy2d/easy2d.h>
 #include"StartScene.h"
 #include"Data.h"
@@ -8,38 +9,38 @@ void Init();
 int main()
 {
 	Logger::showConsole(false);
-	// ЁУй╪╩╞сно╥, Game::init ╨╞йЩд╛хо╩А╢╢╫╗р╩╦Ж 800x600 ╢Сп║╣д╢╟©зё╛ЁУй╪╩╞й╠р╡©иртиХжц╢╟©з╣д╠ЙлБ╨м╢Сп║ё╨
+	// О©╫О©╫й╪О©╫О©╫О©╫О©╫о╥, Game::init О©╫О©╫О©╫О©╫д╛О©╫о╩А╢╢О©╫О©╫р╩О©╫О©╫ 800x600 О©╫О©╫п║О©╫д╢О©╫О©╫зёО©╫О©╫О©╫й╪О©╫О©╫й╠р╡О©╫О©╫О©╫О©╫О©╫О©╫О©╫ц╢О©╫О©╫з╣д╠О©╫О©╫О©╫м╢О©╫п║О©╫О©╫
 	if (Game::init(L"fortest", WINDOW_WIDTH * BRICK_WIDTH, WINDOW_HEIGHT * BRICK_WIDTH))
 	{
-		// ЁУй╪╩╞рТюжвйт╢нд╪Ч
+		// О©╫О©╫й╪О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫т╢О©╫д╪О©╫
 		Init();
 
-		// ╫ЬхК©╙й╪Ё║╬╟
+		// О©╫О©╫О©╫К©╙й╪О©╫О©╫О©╫О©╫
 		auto startScene = gcnew StartScene();
 		SceneManager::enter(startScene);
 
-		// ©╙й╪сно╥
+		// О©╫О©╫й╪О©╫О©╫о╥
 		Game::start();
 	}
 
-	// ╩ьйусно╥вйт╢
+	// О©╫О©╫О©╫О©╫О©╫О©╫о╥О©╫О©╫т╢
 	Game::destroy();
 	return 0;
 }
 
 void Init()
 {
-	/* т╓╪стьрТюжнд╪Ч*/
+	/* т╓О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫*/
 	return;
-	/*** т╓╪стьрТюжнд╪Ч
+	/*** т╓О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫
 	MusicPlayer::preload(L"res/background.wav");
 	MusicPlayer::preload(L"res/boxmove.wav");
 	MusicPlayer::preload(L"res/manmove.wav");
-	// я╜╩╥╡╔╥е╠Ё╬╟рТюжё╛-1 ╠Мй╬я╜╩╥╡╔╥е
+	// я╜О©╫О©╫О©╫О©╫О©╫е╠О©╫О©╫О©╫О©╫О©╫О©╫жёО©╫-1 О©╫О©╫й╬я╜О©╫О©╫О©╫О©╫О©╫О©╫
 	MusicPlayer::play(L"res/background.wav", -1);
-	// ╢снд╪Ч╤ах║╧ь©╗пео╒ё╛н╢╤ах║╣╫й╠д╛хон╙ 1
+	// О©╫О©╫О©╫д╪О©╫О©╫О©╫х║О©╫ь©О©╫О©╫О©╫о╒О©╫О©╫н╢О©╫О©╫х║О©╫О©╫й╠д╛О©╫О©╫н╙ 1
 	g_CurrentLevel = Data::getInt(L"level", 1);
-	// ╢снд╪Ч╤ах║иЫрТ©╙╧ьпео╒ё╛н╢╤ах║╣╫й╠д╛хон╙ 1
+	// О©╫О©╫О©╫д╪О©╫О©╫О©╫х║О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╒О©╫О©╫н╢О©╫О©╫х║О©╫О©╫й╠д╛О©╫О©╫н╙ 1
 	g_SoundOpen = Data::getBool(L"sound", true);
 	if (!g_SoundOpen)
 	{
