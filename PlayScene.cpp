@@ -20,31 +20,42 @@ PlayScene::PlayScene(int level)
 
 void PlayScene::onUpdate()
 {
+	player_down = 0; //没被按下
+
+	// 1 up 2 right 3 down 4 left 
 	if (Input::isDown(KeyCode::S))
 	{
+		player_down = 1;
 		player->move(3);
 	}
 	else if (Input::isDown(KeyCode::W))
 	{
+		player_down = 1;
 		player->move(1);
 	}
+
 	if (Input::isDown(KeyCode::A))
 	{
+		player_down = 1;
 		if (player->face == 2)
 		{
-			player->faceChange = true;
 			player->face = 1;
 		}
 		player->move(4);
 	}
 	else if (Input::isDown(KeyCode::D))
 	{
+		player_down = 1;
 		if (player->face == 1)
 		{
-			player->faceChange = true;
 			player->face = 2;
 		}
 		player->move(2);
+	}
+	if (!player_down)
+	{
+		player->pauseAction(L"animate_moveright");
+		player->pauseAction(L"animate_moveleft");
 	}
 }
 

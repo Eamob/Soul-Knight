@@ -20,6 +20,7 @@ protected:
 	Text* bestText;
 	*/
 	//作为一个地图层
+	bool player_down = 0;//检测是否有控制人物角色的按键被按下
 	Map map;
 	Node* mapLayer;
 	Player* player;
