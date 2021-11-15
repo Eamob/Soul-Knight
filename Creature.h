@@ -10,7 +10,7 @@ public:
 	int direction;//1 2 3 4 上右下左
 	int health;
 	float speed;
-	int face;//人物朝向  1=左  2=又
+	bool face;//人物朝向  ture=左  false=又
 	bool faceChange;//用于判断人物是否变向，false是没有变向，true是变向了
 
 public:

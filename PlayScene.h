@@ -2,6 +2,10 @@
 #include<easy2d/easy2d.h>
 #include"Data.h"
 #include"Player.h"
+
+#include<iostream>
+#include <chrono>
+
 using namespace easy2d;
 
 class PlayScene :public Scene

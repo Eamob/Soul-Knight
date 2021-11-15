@@ -1,19 +1,27 @@
 #include"Player.h"
-#include"Data.h"
+
 
 Player::Player()
 {
-	this->face = 1;
 	this->speed = 2.0f;
 	this->health = 999999;//初始血量
+	this->isRanged = false;//初始化时用近战
+	this->face = true;
+	this->direction = 2;
 
-	this->open(L"res/heros/one_l0.png");//导入人物图片
+	this->open(L"res/heros/one_r0.png");//导入人物图片
 	this->setWidth(BRICK_WIDTH * 2);
 	this->setHeight(BRICK_WIDTH * 2);
 	this->setAnchor(0.5f, 0.5f);
 	this->setPos(WINDOW_WIDTH * BRICK_WIDTH / 2, WINDOW_HEIGHT * BRICK_WIDTH / 2);//生成人物
 
 	preLoadAnimate();
+
+	//定义武器的一些属性
+	weapon = gcnew Weapon();
+	this->addChild(weapon);
+	weapon->setPos(25.0f, 50.0f);//这里的坐标是以人物左上角为坐标系决定的
+
 }
 
 Player::~Player() {
@@ -30,19 +38,16 @@ void Player::move(int direction)
 	{
 		if (this->getPosY() > (Window::getHeight() - MAP_HEIGHT * BRICK_WIDTH) / 2 + this->getHeight() / 2)
 		{
-			//auto moveBy = gcnew MoveBy(0.2f, Vector2(0, -speed));
-			//auto two = gcnew Spawn({ moveBy, animateR });
-			//this->runAction(two);
-			//this->runAction(moveBy);
 			this->movePosY(-speed);
-			//this->runAction(gcnew Loop(animateR));
-			if (face == 1) 
+			if (face == true) 
 			{
+				weapon->move(direction, true, this->isRanged);
 				loop_animateL->resume();//继续
 				loop_animateR->pause();//暂停
 			}
 			else 
 			{
+				weapon->move(direction, false, this->isRanged);
 				loop_animateR->resume();
 				loop_animateL->pause();
 			}
@@ -53,34 +58,27 @@ void Player::move(int direction)
 	{
 		if (this->getPosX() < Window::getWidth() / 2 + MAP_WIDTH * BRICK_WIDTH / 2 - this->getWidth() / 2)
 		{
-			//auto moveBy = gcnew MoveBy(0.2f, Vector2(speed, 0));
-			//auto two = gcnew Spawn({ moveBy, animateR });
-			//this->runAction(two);
-			//this->runAction(moveBy);
 			this->movePosX(speed);
-			//this->runAction(gcnew Loop(animateL));
 			loop_animateR->resume(); //继续
 			loop_animateL->pause(); //暂停
 		}
+		weapon->move(direction, false, this->isRanged);
 		break;
 	}
 	case 3:
 	{
 		if (this->getPosY() < Window::getHeight() / 2 + MAP_HEIGHT * BRICK_WIDTH / 2 - this->getHeight() / 2)
 		{
-			//auto moveBy = gcnew MoveBy(0.2f, Vector2(0, speed));
-			//auto two = gcnew Spawn({ moveBy, animateR });
-			//this->runAction(two);
-			//this->runAction(moveBy);
 			this->movePosY(speed);
-			//this->runAction(gcnew Loop(animateR));
-			if (face == 1) 
+			if (face == true)
 			{
+				weapon->move(direction, true, this->isRanged);
 				loop_animateL->resume();//继续
 				loop_animateR->pause();//暂停
 			}
 			else 
 			{
+				weapon->move(direction, false, this->isRanged);
 				loop_animateR->resume();
 				loop_animateL->pause();
 			}
@@ -91,15 +89,11 @@ void Player::move(int direction)
 	{
 		if (this->getPosX() > Window::getWidth() / 2 - MAP_WIDTH * BRICK_WIDTH / 2 + this->getWidth() / 2)
 		{
-			//auto moveBy = gcnew MoveBy(0.2f, Vector2(-speed, 0));
-			//auto two = gcnew Spawn({ moveBy, animateR });
-			//this->runAction(two);
-			//this->runAction(moveBy);
 			this->movePosX(-speed);
-			//this->runAction(gcnew Loop(animateL));
 			loop_animateL->resume();
 			loop_animateR->pause();
 		}
+		weapon->move(direction, true, this->isRanged);
 		break;
 	}
 	}

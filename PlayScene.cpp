@@ -1,12 +1,14 @@
 #include "PlayScene.h"
 #include"Data.h"
 
+//避免响应过于灵敏的开始时间存储变量
+auto timeStart = std::chrono::high_resolution_clock::now();
+
 PlayScene::PlayScene(int level)
 {
 	//**一些场景内的钥匙数目，生命值等提示
 
 	//**这里应该搞一些暂停按钮直接按
-
 	// 添加地图部分
 	mapLayer = gcnew Node();
 	this->addChild(mapLayer);
@@ -26,29 +28,33 @@ void PlayScene::onUpdate()
 	if (Input::isDown(KeyCode::S))
 	{
 		player_down = 1;
+		player->direction = 3;
 		player->move(3);
 	}
 	else if (Input::isDown(KeyCode::W))
 	{
 		player_down = 1;
+		player->direction = 1;
 		player->move(1);
 	}
 
 	if (Input::isDown(KeyCode::A))
 	{
 		player_down = 1;
-		if (player->face == 2)
+		player->direction = 4;
+		if (player->face == false)
 		{
-			player->face = 1;
+			player->face = true;
 		}
 		player->move(4);
 	}
 	else if (Input::isDown(KeyCode::D))
 	{
 		player_down = 1;
-		if (player->face == 1)
+		player->direction = 2;
+		if (player->face == true)
 		{
-			player->face = 2;
+			player->face = false;
 		}
 		player->move(2);
 	}
@@ -56,6 +62,20 @@ void PlayScene::onUpdate()
 	{
 		player->pauseAction(L"animate_moveright");
 		player->pauseAction(L"animate_moveleft");
+	}
+
+	if (Input::isDown(KeyCode::J))
+	{
+		player->weapon->attack(player->direction, player->face, player->isRanged);
+	}
+
+	std::chrono::duration<double, std::milli> timeIntervel = std::chrono::high_resolution_clock::now() - timeStart;	// 毫秒
+	if (Input::isDown(KeyCode::U) && timeIntervel.count() >150)
+	{
+		timeStart = std::chrono::high_resolution_clock::now();
+		player->weapon->weaponChange(player->direction, player->face, player->isRanged);
+		player->isRanged = !player->isRanged;
+	
 	}
 }
 
