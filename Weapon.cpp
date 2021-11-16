@@ -15,6 +15,7 @@ Weapon::Weapon()
 	this->setWidth(BRICK_WIDTH*2);
 	this->setHeight(BRICK_WIDTH*2);
 	this->setAnchor(0.0f, 1.0f); //设置01作为锚点，也就是刀的握把处
+
 }
 
 void Weapon::move(int direction, bool face, bool isRanged)
@@ -39,65 +40,11 @@ void Weapon::move(int direction, bool face, bool isRanged)
 	}
 	else
 	{
-		switch (direction)
-		{
-		case 1:
-		{
-			if (face)
-			{
-				this->open(L"res/heros/Ranged1true.png");//导入人物图片
-				this->setWidth(BRICK_WIDTH * 1.5);
-				this->setHeight(BRICK_WIDTH * 1.5);
-				this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			}
-			else
-			{
-				this->open(L"res/heros/Ranged1false.png");//导入人物图片
-				this->setWidth(BRICK_WIDTH * 1.5);
-				this->setHeight(BRICK_WIDTH * 1.5);
-				this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			}
-			break;
-		}
-		case 2:
-		{
-			this->open(L"res/heros/RangedR.png");//导入人物图片
-			this->setWidth(BRICK_WIDTH * 1.5);
-			this->setHeight(BRICK_WIDTH * 1.5);
-			this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			break;
-		}
-		case 3:
-		{
-			if (face)
-			{
-				this->open(L"res/heros/Ranged3true.png");//导入人物图片
-				this->setWidth(BRICK_WIDTH * 1.5);
-				this->setHeight(BRICK_WIDTH * 1.5);
-				this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			}
-			else
-			{
-				this->open(L"res/heros/Ranged3false.png");//导入人物图片
-				this->setWidth(BRICK_WIDTH * 1.5);
-				this->setHeight(BRICK_WIDTH * 1.5);
-				this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			}
-			break;
-		}
-		case 4:
-		{
-			this->open(L"res/heros/RangedL.png");//导入人物图片
-			this->setWidth(BRICK_WIDTH * 1.5);
-			this->setHeight(BRICK_WIDTH * 1.5);
-			this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			break;
-		}
-		}
+		SetRanged(direction, face);
 	}
 }
 
-void Weapon::attack(int direction, bool face, bool isRanged)
+void Weapon::attack(int direction, bool face, bool isRanged, Point playerPos)
 {
 	//direction: 1234上右下左
 	//face: 12左右
@@ -183,75 +130,19 @@ void Weapon::attack(int direction, bool face, bool isRanged)
 		}
 		}
 	}
-
-	else//远程武器
+	else//远程武器攻击
 	{
-
+		bullet = gcnew Bullet();
+		bullet->setPos(playerPos);
+		bullet->move(direction);
 	}
-	
 }
 
 void Weapon::weaponChange(int direction, bool face, bool isRanged)
 {
 	if (!isRanged)//当时是近战武器，这里变成远程武器
 	{
-		//direction1234: 上右下左
-		//face：true左，false右
-		switch (direction)
-		{
-		case 1:
-		{
-			if (face)
-			{
-				this->open(L"res/heros/Ranged1true.png");//导入人物图片
-				this->setWidth(BRICK_WIDTH * 1.5);
-				this->setHeight(BRICK_WIDTH * 1.5);
-				this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			}
-			else
-			{
-				this->open(L"res/heros/Ranged1false.png");//导入人物图片
-				this->setWidth(BRICK_WIDTH * 1.5);
-				this->setHeight(BRICK_WIDTH * 1.5);
-				this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			}
-			break;
-		}
-		case 2:
-		{
-			this->open(L"res/heros/RangedR.png");//导入人物图片
-			this->setWidth(BRICK_WIDTH * 1.5);
-			this->setHeight(BRICK_WIDTH * 1.5);
-			this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			break;
-		}
-		case 3:
-		{
-			if (face)
-			{
-				this->open(L"res/heros/Ranged3true.png");//导入人物图片
-				this->setWidth(BRICK_WIDTH * 1.5);
-				this->setHeight(BRICK_WIDTH * 1.5);
-				this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			}
-			else
-			{
-				this->open(L"res/heros/Ranged3false.png");//导入人物图片
-				this->setWidth(BRICK_WIDTH * 1.5);
-				this->setHeight(BRICK_WIDTH * 1.5);
-				this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			}
-			break;
-		}
-		case 4:
-		{
-			this->open(L"res/heros/RangedL.png");//导入人物图片
-			this->setWidth(BRICK_WIDTH * 1.5);
-			this->setHeight(BRICK_WIDTH * 1.5);
-			this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
-			break;
-		}
-		}
+		SetRanged(direction, face);
 	}
 	else
 	{
@@ -270,5 +161,66 @@ void Weapon::weaponChange(int direction, bool face, bool isRanged)
 			this->setHeight(BRICK_WIDTH * 2);
 			this->setAnchor(0.0f, 1.0f); //设置01作为锚点，也就是刀的握把处
 		}
+	}
+}
+
+void Weapon::SetRanged(int direction, bool face)
+{
+	//direction1234: 上右下左
+	//face：true左，false右
+	switch (direction)
+	{
+	case 1:
+	{
+		if (face)
+		{
+			this->open(L"res/heros/Ranged1true.png");//导入人物图片
+			this->setWidth(BRICK_WIDTH * 1.5);
+			this->setHeight(BRICK_WIDTH * 1.5);
+			this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
+		}
+		else
+		{
+			this->open(L"res/heros/Ranged1false.png");//导入人物图片
+			this->setWidth(BRICK_WIDTH * 1.5);
+			this->setHeight(BRICK_WIDTH * 1.5);
+			this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
+		}
+		break;
+	}
+	case 2:
+	{
+		this->open(L"res/heros/RangedR.png");//导入人物图片
+		this->setWidth(BRICK_WIDTH * 1.5);
+		this->setHeight(BRICK_WIDTH * 1.5);
+		this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
+		break;
+	}
+	case 3:
+	{
+		if (face)
+		{
+			this->open(L"res/heros/Ranged3true.png");//导入人物图片
+			this->setWidth(BRICK_WIDTH * 1.5);
+			this->setHeight(BRICK_WIDTH * 1.5);
+			this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
+		}
+		else
+		{
+			this->open(L"res/heros/Ranged3false.png");//导入人物图片
+			this->setWidth(BRICK_WIDTH * 1.5);
+			this->setHeight(BRICK_WIDTH * 1.5);
+			this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
+		}
+		break;
+	}
+	case 4:
+	{
+		this->open(L"res/heros/RangedL.png");//导入人物图片
+		this->setWidth(BRICK_WIDTH * 1.5);
+		this->setHeight(BRICK_WIDTH * 1.5);
+		this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
+		break;
+	}
 	}
 }

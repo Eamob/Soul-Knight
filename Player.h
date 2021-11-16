@@ -12,7 +12,6 @@ public:
 	Player();
 	~Player();
 	void move(int dirction);
-	void attack();
 	void pickup();
 	bool isdead();
 	void vibration();

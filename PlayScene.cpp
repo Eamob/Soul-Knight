@@ -63,19 +63,25 @@ void PlayScene::onUpdate()
 		player->pauseAction(L"animate_moveright");
 		player->pauseAction(L"animate_moveleft");
 	}
+	std::chrono::duration<double, std::milli> timeIntervel = std::chrono::high_resolution_clock::now() - timeStart;	// 毫秒
 
-	if (Input::isDown(KeyCode::J))
+
+	if (Input::isDown(KeyCode::J) && timeIntervel.count() > 150)
 	{
-		player->weapon->attack(player->direction, player->face, player->isRanged);
+		timeStart = std::chrono::high_resolution_clock::now();
+		player->weapon->attack(player->direction, player->face, player->isRanged, player->getPos());
+
+		if (player->isRanged)
+		{
+			this->addChild(player->weapon->bullet); //子弹是跟场景一起运动的，所以子弹应该变成场景的类
+		}
 	}
 
-	std::chrono::duration<double, std::milli> timeIntervel = std::chrono::high_resolution_clock::now() - timeStart;	// 毫秒
-	if (Input::isDown(KeyCode::U) && timeIntervel.count() >150)
+	if (Input::isDown(KeyCode::U) && timeIntervel.count() > 150) //当两次按键的间隔时间大于150ms才会执行下面的函数
 	{
 		timeStart = std::chrono::high_resolution_clock::now();
 		player->weapon->weaponChange(player->direction, player->face, player->isRanged);
 		player->isRanged = !player->isRanged;
-	
 	}
 }
 
