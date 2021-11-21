@@ -6,7 +6,6 @@
 
 #include<iostream>
 #include <chrono>
-
 using namespace easy2d;
 
 class PlayScene :public Scene
@@ -14,6 +13,8 @@ class PlayScene :public Scene
 private:
 	Text* playerHealth = nullptr;
 	Text* boxHealth = nullptr;
+	Text* bulletNUM = nullptr;
+	int randomObj; //定义箱子掉落物品的随机数
 public:
 	PlayScene(int level);
 	void onUpdate() override; //是一种回调函数。在里面定义在场景里面的运动。

@@ -8,7 +8,6 @@ Bullet::Bullet()
 	this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
 	this->speed = 400;
 
-	this->isFired = false;
 	this->isUsed = false;
 }
 

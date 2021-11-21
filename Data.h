@@ -13,7 +13,7 @@
 //定义关卡数目，暂时设置成1
 #define MAX_LEVEL 1
 
-#define BULLET_INIT 20  //定义人物初始的子弹数
+extern int BULLET_INIT; //定义人物初始的子弹数(由于后续捡到子弹，数目会变化，所以设置成变量)(在源文件PlayScene.cpp中定义)
 
 /* 这个类用于储存游戏的地图内部数据结构
 * 

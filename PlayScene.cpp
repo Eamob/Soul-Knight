@@ -1,6 +1,6 @@
 #include "PlayScene.h"
 #include"Data.h"
-
+int BULLET_INIT = 20; //在Data.h中作为全局变量的定义
 //避免响应过于灵敏的开始时间存储变量
 auto timeStart = std::chrono::high_resolution_clock::now();
 
@@ -36,7 +36,7 @@ PlayScene::PlayScene(int level)
 	//添加人物类的血量文本
 	playerHealth = gcnew Text(L"Health: " + std::to_wstring(player->health));
 	playerHealth->setAnchor(0.5f, 0);
-	playerHealth->setPos(BRICK_WIDTH*2, BRICK_WIDTH*2);
+	playerHealth->setPos(BRICK_WIDTH * 2, BRICK_WIDTH * 2);
 	this->addChild(playerHealth);
 
 	for (unsigned int i = 0; i < BULLET_INIT; i++)
@@ -51,10 +51,17 @@ PlayScene::PlayScene(int level)
 	boxHealth->setAnchor(0.5f, 0);
 	boxHealth->setPos(BRICK_WIDTH * 2, BRICK_WIDTH * 4);
 	this->addChild(boxHealth);
+
+	bulletNUM = gcnew Text(L"bullet: " + std::to_wstring(this->player->numBullet));
+	bulletNUM->setAnchor(0.5f, 0);
+	bulletNUM->setPos(BRICK_WIDTH * 2, BRICK_WIDTH * 6);
+	this->addChild(bulletNUM);
+
 }
 
 void PlayScene::onUpdate()
 {
+	
 	player_down = 0; //没被按下
 
 	// 1 up 2 right 3 down 4 left 
@@ -101,13 +108,21 @@ void PlayScene::onUpdate()
 	//计时器
 	std::chrono::duration<double, std::milli> timeIntervel = std::chrono::high_resolution_clock::now() - timeStart;	// 毫秒
 
+	//切换武器按钮
+	if (Input::isDown(KeyCode::U) && timeIntervel.count() > 150) //当两次按键的间隔时间大于150ms才会执行下面的函数
+	{
+		timeStart = std::chrono::high_resolution_clock::now();
+		player->weapon->weaponChange(player->direction, player->face, player->isRanged);
+		player->isRanged = !player->isRanged;
+	}
+
 	//攻击按钮
 	if (Input::isDown(KeyCode::J) && timeIntervel.count() > 200 )
 	{
 		
 		timeStart = std::chrono::high_resolution_clock::now();
 
-		player->attack(); //实现人物攻击的动画以及生成子弹
+		player->attack(); //实现人物攻击的动画//以及生成子弹
 
 		if (player->isRanged && player->numBullet > 0)//远程攻击时
 		{
@@ -118,6 +133,7 @@ void PlayScene::onUpdate()
 			//this->addChild(this->bullets[BULLET_INIT - this->player->numBullet]); //子弹是跟场景一起运动的，所以子弹应该变成场景的类
 			//this->player->bullets[BULLET_INIT - this->player->numBullet]->getParent();
 			this->player->numBullet -= 1;
+			bulletNUM->setText(L"bullet: " + std::to_wstring(this->player->numBullet));
 		}
 		else if (!player->isRanged && !box->isOpen)//近战攻击并且箱子没有打开的时候
 		{
@@ -128,22 +144,55 @@ void PlayScene::onUpdate()
 				boxHealth->setText(L"box: " + std::to_wstring(box->health));
 				if (box->health == 0)
 				{
-					box->setOpacity(1.0f);
-					//这里可以打开随机物品
-					box->open(L"res/obj/health.png");
+					//箱子打开随机物品
+					this->randomObj = Random::range(0, 1);
+					if (this->randomObj == 1)
+					{
+						box->open(L"res/obj/health.png");
+					}
+					else if (this->randomObj == 0)
+					{
+						box->open(L"res/obj/bullet.png");
+					}
+
 					box->isOpen = true;
+					box->setOpacity(1.0f);
+
 				}
 			}
 		}
 	}
-
-	//切换武器按钮
-	if (Input::isDown(KeyCode::U) && timeIntervel.count() > 150) //当两次按键的间隔时间大于150ms才会执行下面的函数
+	//人物远程子弹跟箱子交互
+	for (unsigned int i = 0; i < (BULLET_INIT - this->player->numBullet); i++) //从人物已经射出去的子弹进行遍历
 	{
-		timeStart = std::chrono::high_resolution_clock::now();
-		player->weapon->weaponChange(player->direction, player->face, player->isRanged);
-		player->isRanged = !player->isRanged;
+		if (!this->bullets[i]->isUsed && (this->bullets[i]->getBoundingBox().intersects(box->getBoundingBox())) && !this->box->isOpen)
+		{
+			this->bullets[i]->isUsed = true;
+			this->bullets[i]->setOpacity(0.0f);
+			this->box->health -= this->player->weapon->forceRanged;
+			box->setOpacity(box->health / 6.0f);
+			boxHealth->setText(L"box: " + std::to_wstring(box->health));
+			if (box->health == 0)
+			{
+				//打开随机物品
+				this->randomObj = Random::range(0, 1);
+
+				if (this->randomObj==1)
+				{
+					box->open(L"res/obj/health.png");
+				}
+				else if(this->randomObj == 0)
+				{
+					box->open(L"res/obj/bullet.png");
+				}
+
+				box->isOpen = true;
+				box->setOpacity(1.0f);
+			}
+		}
 	}
+
+	
 
 	//判断陷阱和人物是否重合
 	if (player->getBoundingBox().intersects(trap->getBoundingBox()))
@@ -161,38 +210,39 @@ void PlayScene::onUpdate()
 		player->speed = 3.0f;
 	}
 
-	//限制人物不能穿过箱子
+	//箱子没有打开之前 限制人物不能穿过箱子
 	if (player->getBoundingBox().intersects(box->getBoundingBox()) && box->isOpen == false)
 	{
 		player->setPos(player->playerPos);
 		timeStart = std::chrono::high_resolution_clock::now();
 		
 	}
+	//箱子打开之后 人物与箱子掉落物交互
 	else if(player->getBoundingBox().intersects(box->getBoundingBox()) && 
 		box->isUsed == false && box->isOpen == true && timeIntervel.count() > 1000) //箱子打开了之后人物跟出来的物品接触到了之后，四个条件：接触，没有被使用过，箱子打开了，距离箱子打开的1秒后
 	{
-		box->setOpacity(0.5);
+		box->setOpacity(0);
 		box->isUsed = true;
-		player->health += 2;
-		playerHealth->setText(L"Health: " + std::to_wstring(player->health));
+		if (this->randomObj == 1)
+		{
+			player->health += 2;
+			playerHealth->setText(L"Health: " + std::to_wstring(player->health));
+		}
+		else if(this->randomObj == 0)
+		{
+			Bullet* bullet = gcnew Bullet();
+			bullets.push_back(bullet);
+			this->addChild(bullet); //如果不在初始化的时候定义子弹的parents，在进行远程攻击的时候定义会有问题（没发现问题在哪里)。
+			bullet->setOpacity(0); //但是在这里定义之后子弹默认出现在屏幕左上方，因此设置透明度为0
+			BULLET_INIT++;
+			this->player->numBullet++;
+			bulletNUM->setText(L"bullet: " + std::to_wstring(this->player->numBullet));
+		}
+		
 	}
 
-	//这里的问题就是只会判断新生成的子弹，不能每一个子弹都判断，应该要在子弹类里面的update函数定义是否碰撞
-	/*//注意优先级，应该先判断子弹数，子弹数少于20的时候才开始生成子弹，否则后面的bullet会报错
-	if (player->numWeapon < 20 && player->weapon->bullet->getBoundingBox().intersects(box->getBoundingBox()) && !box->isOpen &&timeIntervel.count() > 300)
-	{
-		timeStart = std::chrono::high_resolution_clock::now();
-		box->health -= player->weapon->forceRanged;
-		box->setOpacity(box->health / 6.0f);
-		boxHealth->setText(L"box: " + std::to_wstring(box->health));
-		if (box->health == 0)
-		{
-			box->setOpacity(1.0f);
-			//这里可以打开随机物品
-			box->open(L"res/obj/health.png");
-			box->isOpen = true;
-		}
-	}*/
+
+	
 	player->playerPos = player->getPos(); //记录上一帧玩家的位置
 }
 

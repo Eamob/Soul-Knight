@@ -10,7 +10,6 @@ class Bullet : public Sprite
 public:
 	float speed;
 
-	bool isFired; //判断子弹是否已经射击出去
 	bool isUsed; //判断子弹是否已经使用
 
 	Bullet();
