@@ -12,9 +12,9 @@ Map g_Maps[MAX_LEVEL] =
 		// true 表示该点是得分点
 		{ { Empty },{ Wall  },{ Wall  },{ Wall  },{ Wall  },{ Wall  },{ Wall  },{ Wall  },{ Wall  },{ Wall  },{ Wall  },{ Wall  },{ Wall  },{ Wall  } },
 		{ { Empty },{ Wall  },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },
-		{ { Wall  },{ Wall  },{ Ground},{ Box   },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },
-		{ { Wall  },{ Ground},{ Ground},{ Box   },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },
-		{ { Wall  },{ Ground},{ Ground},{ Ground},{ Box   },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },
+		{ { Wall  },{ Wall  },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },
+		{ { Wall  },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },
+		{ { Wall  },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },
 		{ { Wall  },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },
 		{ { Wall  },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },
 		{ { Wall  },{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Ground},{ Wall  } },

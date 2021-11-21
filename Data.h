@@ -13,6 +13,8 @@
 //定义关卡数目，暂时设置成1
 #define MAX_LEVEL 1
 
+#define BULLET_INIT 20  //定义人物初始的子弹数
+
 /* 这个类用于储存游戏的地图内部数据结构
 * 
 * 地图元素类型（TYPE）共有5种，分别是墙、地面、箱子
@@ -26,7 +28,7 @@
 // Ground	地面
 // Wall		墙
 // Box		箱子
-enum TYPE {Empty=0, Ground, Wall, Box};
+enum TYPE {Empty=0, Ground, Wall};
 
 // 地图
 struct Map

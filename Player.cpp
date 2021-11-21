@@ -1,9 +1,16 @@
 #include"Player.h"
+<<<<<<< Updated upstream
 
 
 Player::Player()
 {
 	this->speed = 2.0f;
+=======
+
+Player::Player()
+{
+	this->speed = 3.0f;
+>>>>>>> Stashed changes
 	this->health = 999999;//初始血量
 	this->isRanged = false;//初始化时用近战
 	this->face = true;
@@ -22,6 +29,16 @@ Player::Player()
 	this->addChild(weapon);
 	weapon->setPos(25.0f, 50.0f);//这里的坐标是以人物左上角为坐标系决定的
 
+<<<<<<< Updated upstream
+=======
+	this->numBullet = BULLET_INIT; //初始定义为20颗子弹
+
+	/*for (unsigned int i = 0; i < BULLET_INIT; i++)
+	{
+		Bullet *bullet = gcnew Bullet();
+		bullets.push_back(bullet);
+	}*/
+>>>>>>> Stashed changes
 }
 
 Player::~Player() {
@@ -136,4 +153,134 @@ void Player::preLoadAnimate()
 	this->runAction(loop_animateR);
 	loop_animateR->pause();
 	loop_animateL->pause();
+<<<<<<< Updated upstream
 }
+=======
+}
+
+bool Player::hit(Prop* Obj)
+{
+	switch (this->direction)
+	{
+	case 1:
+	{
+		if (abs(this->getPosX() - Obj->getPosX()) < BRICK_WIDTH)
+		{
+			if (this->getPosY() - Obj->getPosY() > 0 && this->getPosY() - Obj->getPosY() < 3 * BRICK_WIDTH) return true;//在y方向上一格范围
+			else return false;
+		}
+		break;
+	}
+	case 2:
+	{
+		if (abs(this->getPosY() - Obj->getPosY()) < BRICK_WIDTH)
+		{
+			if (Obj->getPosX() - this->getPosX() > 0 && Obj->getPosX() - this->getPosX() < 3 * BRICK_WIDTH) return true;//在x方向上一格范围
+			else return false;
+		}
+		break;
+	}
+		
+	case 3:
+	{
+		if (abs(this->getPosX() - Obj->getPosX()) < BRICK_WIDTH)
+		{
+			if (Obj->getPosY() - this->getPosY() > 0 && Obj->getPosY() - this->getPosY() < 3.5 * BRICK_WIDTH) return true;//在y方向上一格范围
+			else return false;
+		}
+		break;
+	}
+	case 4:
+	{
+		if (abs(this->getPosY() - Obj->getPosY()) < BRICK_WIDTH)
+		{
+			if (this->getPosX() - Obj->getPosX() > 0 && this->getPosX() - Obj->getPosX() < 3 * BRICK_WIDTH) return true;//在x方向上一格范围
+			else return false;
+		}
+		break;
+	}
+	}
+	return false;
+}
+
+/*void Player::attack()
+{
+	if (!this->isRanged)
+	{
+		switch (this->direction)
+		{
+		case 1:
+		{
+			//动画定义
+			if (face == true)
+			{
+				auto rotateTo = gcnew RotateTo(0.05f, 60);
+				auto rotateBack = gcnew RotateTo(0.05f, 0);
+
+				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
+				// 执行顺序动画
+				this->weapon->runAction(sequence);
+			}
+			else
+			{
+				auto rotateTo = gcnew RotateTo(0.05f, -60);
+				auto rotateBack = gcnew RotateTo(0.05f, 0);
+				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
+				// 执行顺序动画
+				this->weapon->runAction(sequence);
+			}
+			break;
+		}
+		case 2:
+		{
+			auto rotateTo = gcnew RotateTo(0.05f, 60);
+			auto rotateBack = gcnew RotateTo(0.05f, 0);
+			auto sequence = gcnew Sequence({ rotateTo, rotateBack });
+			// 执行顺序动画
+			this->weapon->runAction(sequence);
+			break;
+		}
+		case 3:
+		{
+			if (face == true)
+			{
+				auto rotateTo = gcnew RotateTo(0.05f, -180);
+				auto rotateBack = gcnew RotateTo(0.05f, 0);
+
+				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
+				// 执行顺序动画
+				this->weapon->runAction(sequence);
+			}
+			else
+			{
+				auto rotateTo = gcnew RotateTo(0.05f, 180);
+				auto rotateBack = gcnew RotateTo(0.05f, 0);
+
+				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
+				// 执行顺序动画
+				this->weapon->runAction(sequence);
+			}
+			break;
+		}
+		case 4:
+		{
+			auto rotateTo = gcnew RotateTo(0.05f, -60);
+			auto rotateBack = gcnew RotateTo(0.05f, 0);
+
+			auto sequence = gcnew Sequence({ rotateTo, rotateBack });
+			// 执行顺序动画
+			this->weapon->runAction(sequence);
+			break;
+		}
+		}
+	}
+	/*else//远程武器攻击
+	{
+		this->bullets[BULLET_INIT - numBullet]->setPos(playerPos);
+		this->bullets[BULLET_INIT - numBullet]->move(direction);
+		//bullet = gcnew Bullet();
+		//bullet->setPos(playerPos);
+		//bullet->move(direction);
+	}*/
+/*}*/
+>>>>>>> Stashed changes
