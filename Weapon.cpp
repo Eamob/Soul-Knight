@@ -11,21 +11,14 @@ Weapon::Weapon()
 	Image::preload(L"res/heros/Ranged3true.png");
 	Image::preload(L"res/heros/Ranged3true.png");
 
-<<<<<<< Updated upstream
-	this->open(L"res/heros/MeleeR.png");//导入人物图片
-=======
 	this->open(L"res/heros/MeleeR.png");//导入武器图片
->>>>>>> Stashed changes
 	this->setWidth(BRICK_WIDTH*2);
 	this->setHeight(BRICK_WIDTH*2);
 	this->setAnchor(0.0f, 1.0f); //设置01作为锚点，也就是刀的握把处
 
-<<<<<<< Updated upstream
-=======
 	this->forceMelee = 2;
 	this->forceRanged = 1;
 
->>>>>>> Stashed changes
 }
 
 void Weapon::move(int direction, bool face, bool isRanged)
@@ -51,108 +44,6 @@ void Weapon::move(int direction, bool face, bool isRanged)
 	else
 	{
 		SetRanged(direction, face);
-	}
-}
-
-void Weapon::attack(int direction, bool face, bool isRanged, Point playerPos)
-{
-	//direction: 1234上右下左
-	//face: 12左右
-
-	if (!isRanged)
-	{
-		switch (direction)
-		{
-		case 1:
-		{
-			//动画定义
-			if (face == true)
-			{
-				auto rotateTo = gcnew RotateTo(0.05f, 60);
-				auto rotateBack = gcnew RotateTo(0.05f, 0);
-
-				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
-				// 执行顺序动画
-				this->runAction(sequence);
-			}
-			else
-			{
-				auto rotateTo = gcnew RotateTo(0.05f, -60);
-				auto rotateBack = gcnew RotateTo(0.05f, 0);
-				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
-				// 执行顺序动画
-				this->runAction(sequence);
-			}
-			break;
-		}
-		case 2:
-		{
-<<<<<<< Updated upstream
-			if (face == true)
-			{
-				auto rotateTo = gcnew RotateTo(0.05f, -60);
-				auto rotateBack = gcnew RotateTo(0.05f, 0);
-
-				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
-				// 执行顺序动画
-				this->runAction(sequence);
-			}
-			else
-			{
-				auto rotateTo = gcnew RotateTo(0.05f, 60);
-				auto rotateBack = gcnew RotateTo(0.05f, 0);
-				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
-				// 执行顺序动画
-				this->runAction(sequence);
-			}
-=======
-			auto rotateTo = gcnew RotateTo(0.05f, 60);
-			auto rotateBack = gcnew RotateTo(0.05f, 0);
-			auto sequence = gcnew Sequence({ rotateTo, rotateBack });
-			// 执行顺序动画
-			this->runAction(sequence);
->>>>>>> Stashed changes
-			break;
-		}
-		case 3:
-		{
-			if (face == true)
-			{
-				auto rotateTo = gcnew RotateTo(0.05f, -180);
-				auto rotateBack = gcnew RotateTo(0.05f, 0);
-
-				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
-				// 执行顺序动画
-				this->runAction(sequence);
-			}
-			else
-			{
-				auto rotateTo = gcnew RotateTo(0.05f, 180);
-				auto rotateBack = gcnew RotateTo(0.05f, 0);
-
-				auto sequence = gcnew Sequence({ rotateTo, rotateBack });
-				// 执行顺序动画
-				this->runAction(sequence);
-			}
-			break;
-		}
-		case 4:
-		{
-			auto rotateTo = gcnew RotateTo(0.05f, -60);
-			auto rotateBack = gcnew RotateTo(0.05f, 0);
-
-			auto sequence = gcnew Sequence({ rotateTo, rotateBack });
-			// 执行顺序动画
-			this->runAction(sequence);
-			break;
-		}
-		}
-	}
-	else//远程武器攻击
-	{
-		bullet = gcnew Bullet();
-		bullet->setPos(playerPos);
-		bullet->move(direction);
 	}
 }
 

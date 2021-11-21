@@ -7,12 +7,9 @@ Bullet::Bullet()
 	this->setHeight(BRICK_WIDTH * 2);
 	this->setAnchor(0.5f, 0.5f); //设置01作为锚点，也就是刀的握把处
 	this->speed = 400;
-<<<<<<< Updated upstream
-=======
 
 	this->isFired = false;
 	this->isUsed = false;
->>>>>>> Stashed changes
 }
 
 
@@ -53,8 +50,4 @@ void Bullet::move(int direction)//子弹的移动只跟方向有关
 		break;
 	}
 	}
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

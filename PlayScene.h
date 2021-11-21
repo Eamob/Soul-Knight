@@ -2,10 +2,7 @@
 #include<easy2d/easy2d.h>
 #include"Data.h"
 #include"Player.h"
-<<<<<<< Updated upstream
-=======
 #include"Prop.h"
->>>>>>> Stashed changes
 
 #include<iostream>
 #include <chrono>
@@ -32,10 +29,7 @@ protected:
 	*/
 	//作为一个地图层
 	bool player_down = 0;//检测是否有控制人物角色的按键被按下
-<<<<<<< Updated upstream
-=======
 	
->>>>>>> Stashed changes
 	Map map;
 	Node* mapLayer;
 	Player* player;
@@ -43,5 +37,6 @@ protected:
 	//一些道具对象
 	Prop* trap;//陷阱
 	Prop* box;//宝箱
+	std::vector<Bullet*> bullets; //人物的子弹定义直接放在场景
 
 };

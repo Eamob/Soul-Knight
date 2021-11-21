@@ -39,13 +39,18 @@ PlayScene::PlayScene(int level)
 	playerHealth->setPos(BRICK_WIDTH*2, BRICK_WIDTH*2);
 	this->addChild(playerHealth);
 
+	for (unsigned int i = 0; i < BULLET_INIT; i++)
+	{
+		Bullet* bullet = gcnew Bullet();
+		bullets.push_back(bullet);
+		this->addChild(bullet); //如果不在初始化的时候定义子弹的parents，在进行远程攻击的时候定义会有问题（没发现问题在哪里)。
+		bullet->setOpacity(0); //但是在这里定义之后子弹默认出现在屏幕左上方，因此设置透明度为0
+	}
+
 	boxHealth = gcnew Text(L"box: " + std::to_wstring(box->health));
 	boxHealth->setAnchor(0.5f, 0);
 	boxHealth->setPos(BRICK_WIDTH * 2, BRICK_WIDTH * 4);
 	this->addChild(boxHealth);
-
-	
-
 }
 
 void PlayScene::onUpdate()
@@ -92,22 +97,6 @@ void PlayScene::onUpdate()
 		player->pauseAction(L"animate_moveright");
 		player->pauseAction(L"animate_moveleft");
 	}
-<<<<<<< Updated upstream
-	std::chrono::duration<double, std::milli> timeIntervel = std::chrono::high_resolution_clock::now() - timeStart;	// 毫秒
-
-
-	if (Input::isDown(KeyCode::J) && timeIntervel.count() > 150)
-	{
-		timeStart = std::chrono::high_resolution_clock::now();
-		player->weapon->attack(player->direction, player->face, player->isRanged, player->getPos());
-
-		if (player->isRanged)
-		{
-			this->addChild(player->weapon->bullet); //子弹是跟场景一起运动的，所以子弹应该变成场景的类
-		}
-	}
-
-=======
 
 	//计时器
 	std::chrono::duration<double, std::milli> timeIntervel = std::chrono::high_resolution_clock::now() - timeStart;	// 毫秒
@@ -118,15 +107,17 @@ void PlayScene::onUpdate()
 		
 		timeStart = std::chrono::high_resolution_clock::now();
 
-		player->weapon->attack(player->direction, player->face, player->isRanged, player->playerPos); //实现人物攻击的动画以及生成子弹
+		player->attack(); //实现人物攻击的动画以及生成子弹
 
 		if (player->isRanged && player->numBullet > 0)//远程攻击时
 		{
-			/*this->addChild(player->bullets[BULLET_INIT - player->numBullet]);
-			player->bullets[BULLET_INIT - player->numBullet]->setPos(this->player->getPos());
-			player->bullets[BULLET_INIT - player->numBullet]->move(player->direction);*/
-			player->numBullet -= 1;
-			this->addChild(player->weapon->bullet); //子弹是跟场景一起运动的，所以子弹应该变成场景的类
+			this->bullets[BULLET_INIT - this->player->numBullet]->setPos(this->player->playerPos);
+			this->bullets[BULLET_INIT - this->player->numBullet]->move(this->player->direction);
+			this->bullets[BULLET_INIT - this->player->numBullet]->setOpacity(1.0f);
+			//std::cout << player->numBullet << std::endl;
+			//this->addChild(this->bullets[BULLET_INIT - this->player->numBullet]); //子弹是跟场景一起运动的，所以子弹应该变成场景的类
+			//this->player->bullets[BULLET_INIT - this->player->numBullet]->getParent();
+			this->player->numBullet -= 1;
 		}
 		else if (!player->isRanged && !box->isOpen)//近战攻击并且箱子没有打开的时候
 		{
@@ -144,20 +135,15 @@ void PlayScene::onUpdate()
 				}
 			}
 		}
-
-		//在攻击的时候子弹碰到箱子
 	}
 
 	//切换武器按钮
->>>>>>> Stashed changes
 	if (Input::isDown(KeyCode::U) && timeIntervel.count() > 150) //当两次按键的间隔时间大于150ms才会执行下面的函数
 	{
 		timeStart = std::chrono::high_resolution_clock::now();
 		player->weapon->weaponChange(player->direction, player->face, player->isRanged);
 		player->isRanged = !player->isRanged;
 	}
-<<<<<<< Updated upstream
-=======
 
 	//判断陷阱和人物是否重合
 	if (player->getBoundingBox().intersects(trap->getBoundingBox()))
@@ -208,7 +194,6 @@ void PlayScene::onUpdate()
 		}
 	}*/
 	player->playerPos = player->getPos(); //记录上一帧玩家的位置
->>>>>>> Stashed changes
 }
 
 void PlayScene::Flush()

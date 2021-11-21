@@ -1,16 +1,8 @@
 #include"Player.h"
-<<<<<<< Updated upstream
-
-
-Player::Player()
-{
-	this->speed = 2.0f;
-=======
 
 Player::Player()
 {
 	this->speed = 3.0f;
->>>>>>> Stashed changes
 	this->health = 999999;//初始血量
 	this->isRanged = false;//初始化时用近战
 	this->face = true;
@@ -29,16 +21,15 @@ Player::Player()
 	this->addChild(weapon);
 	weapon->setPos(25.0f, 50.0f);//这里的坐标是以人物左上角为坐标系决定的
 
-<<<<<<< Updated upstream
-=======
 	this->numBullet = BULLET_INIT; //初始定义为20颗子弹
 
-	/*for (unsigned int i = 0; i < BULLET_INIT; i++)
+	/*//加载子弹
+	for (unsigned int i = 0; i < BULLET_INIT; i++)
 	{
 		Bullet *bullet = gcnew Bullet();
 		bullets.push_back(bullet);
 	}*/
->>>>>>> Stashed changes
+
 }
 
 Player::~Player() {
@@ -153,9 +144,6 @@ void Player::preLoadAnimate()
 	this->runAction(loop_animateR);
 	loop_animateR->pause();
 	loop_animateL->pause();
-<<<<<<< Updated upstream
-}
-=======
 }
 
 bool Player::hit(Prop* Obj)
@@ -203,7 +191,7 @@ bool Player::hit(Prop* Obj)
 	return false;
 }
 
-/*void Player::attack()
+void Player::attack()
 {
 	if (!this->isRanged)
 	{
@@ -274,13 +262,4 @@ bool Player::hit(Prop* Obj)
 		}
 		}
 	}
-	/*else//远程武器攻击
-	{
-		this->bullets[BULLET_INIT - numBullet]->setPos(playerPos);
-		this->bullets[BULLET_INIT - numBullet]->move(direction);
-		//bullet = gcnew Bullet();
-		//bullet->setPos(playerPos);
-		//bullet->move(direction);
-	}*/
-/*}*/
->>>>>>> Stashed changes
+}
